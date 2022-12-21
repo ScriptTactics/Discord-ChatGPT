@@ -41,7 +41,7 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
     if (interaction.commandName == 'chat') {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply();
         // await wait(50);
         try {
             const response = (
