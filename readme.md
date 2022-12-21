@@ -58,7 +58,7 @@ Once you added the bot to your server and you setup the appropriate tokens and I
 
 ## Commands
 
-This bot has 3 main commands
+This bot has 1 main commands
 - `/chat` - Has 1 arguments.
   - `chat` - Type in your prompt to the AI. It can accept up to 2048 character.
 
