@@ -1,22 +1,10 @@
-import { Client, Collection } from 'discord.js';
+import { Client } from 'discord.js';
 import * as env from 'dotenv';
-import * as fs from 'fs';
 import { Configuration } from 'openai';
 import { OpenAIApi } from 'openai/dist/api';
-import deployCommand from './deploy-command';
-import { ImportCommand } from './models/ImportCommand';
 
 env.config();
 
-deployCommand.deploy();
-
-const commands = new Collection<string, ImportCommand>();
-const files = fs.readdirSync('dist/commands').filter(file => file.endsWith('.js'));
-for (const file of files) {
-    const command = require(`./commands/${file}`) as ImportCommand;
-    commands.set(command.data.name, command);
-
-}
 
 const wait = require('node:timers/promises').setTimeout;
 const client = new Client({
