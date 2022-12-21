@@ -42,7 +42,6 @@ client.on('interactionCreate', async interaction => {
 
     if (interaction.commandName == 'chat') {
         await interaction.deferReply();
-        // await wait(50);
         try {
             const response = (
                 await openai.createCompletion({
