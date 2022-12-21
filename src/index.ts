@@ -30,7 +30,7 @@ client.on('interactionCreate', async interaction => {
 
     if (interaction.commandName == 'chat') {
         await interaction.deferReply();
-		await wait(5000);
+        await wait(50);
         try {
             const response = (
                 await openai.createCompletion({
@@ -40,21 +40,53 @@ client.on('interactionCreate', async interaction => {
                     max_tokens: 2048,
                 })
             ).data.choices[0].text;
-            console.log(interaction.options.getString('chat'));
             if (!response) interaction.reply('Error');
-            interaction.editReply(response.slice(0, 1500));
-            if (response.length > 1500) {
-                let x = 0;
-               for (let i = 1500; i < response.length; i += 1500) {
-                interaction.followUp(response.slice(x, i));
-                x = i;
-               }
+            const messageLegnth = response.length;
+            if (messageLegnth <= 2000) {
+                interaction.followUp(response);
+            } else {
+                const segments: string[] = [];
+                let currentSegment = '';
+                for (let i = 0; i < messageLegnth; i++) {
+                    currentSegment += response[i];
+                    if (currentSegment.length === 2000) {
+                        segments.push(currentSegment);
+                        currentSegment = '';
+                    }
+                }
+                if (currentSegment) {
+                    segments.push(currentSegment);
+                }
+                for (const segment of segments) {
+                    interaction.followUp(segment);
+                }
             }
+            interaction.followUp('Prompt: ' + interaction.options.getString('chat'));
         } catch (error) {
             console.error(error);
-
         }
     }
 });
+// /**
+//  * @param {string} string that may contain code
+//  * @return {string | null} Language name if found
+//  */
+// function detectCode(string: string): string | null {
+//     const languages = [
+//         { name: 'JavaScript', syntax: /function|for|class/ },
+//         { name: 'Python', syntax: /def|for|class/ },
+//         { name: 'C++', syntax: /int|for|class/ },
+//     ];
+
+//     for (const language of languages) {
+//         const regex = new RegExp(language.syntax);
+//         if (regex.test(string)) {
+//             return language.name;
+//         }
+//     }
+
+//     return null;
+// }
+
 
 client.login(process.env.DISCORD_TOKEN);
