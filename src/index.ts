@@ -41,7 +41,7 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
     if (interaction.commandName == 'chat') {
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
         try {
             const response = (
                 await openai.createCompletion({
@@ -54,7 +54,7 @@ client.on('interactionCreate', async interaction => {
             if (!response) interaction.reply('Error');
             const messageLegnth = response.length;
             if (messageLegnth <= 2000) {
-                interaction.followUp(response);
+                interaction.followUp({ ephemeral: true, content: response });
             } else {
                 const segments: string[] = [];
                 let currentSegment = '';
@@ -69,10 +69,10 @@ client.on('interactionCreate', async interaction => {
                     segments.push(currentSegment);
                 }
                 for (const segment of segments) {
-                    interaction.followUp(segment);
+                    interaction.followUp({ ephemeral: true, content: segment });
                 }
             }
-            interaction.followUp('Prompt: ' + interaction.options.getString('chat'));
+            interaction.followUp({ ephemeral: true, content: 'Prompt: ' + interaction.options.getString('chat') });
         } catch (error) {
             console.error(error);
         }
