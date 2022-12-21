@@ -1,12 +1,23 @@
-import { Client } from 'discord.js';
+import { Client, Collection } from 'discord.js';
 import * as env from 'dotenv';
+import * as fs from 'fs';
 import { Configuration } from 'openai';
 import { OpenAIApi } from 'openai/dist/api';
+import deployCommand from './deploy-command';
+import { ImportCommand } from './models/ImportCommand';
 
 env.config();
 
+deployCommand.deploy();
 
-const wait = require('node:timers/promises').setTimeout;
+const commands = new Collection<string, ImportCommand>();
+const files = fs.readdirSync('dist/commands').filter(file => file.endsWith('.js'));
+for (const file of files) {
+    const command = require(`./commands/${file}`) as ImportCommand;
+    commands.set(command.data.name, command);
+
+}
+
 const client = new Client({
     intents: [],
 });
@@ -31,7 +42,7 @@ client.on('interactionCreate', async interaction => {
 
     if (interaction.commandName == 'chat') {
         await interaction.deferReply();
-        await wait(50);
+        // await wait(50);
         try {
             const response = (
                 await openai.createCompletion({
