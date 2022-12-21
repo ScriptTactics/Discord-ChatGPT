@@ -1,5 +1,5 @@
-# Game-News
-This Discord Bot will subscribe to any steam news feed that you want updates and information on using the SteamWebAPI
+# Discord-ChatGPT
+This Discord Bot will allow you to interface with the ChatGPT AI.
 
 
 ## Installation
