@@ -39,8 +39,9 @@ client.once('shardDisconnect', (event, shardID) => {
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
-
-    if (interaction.commandName == 'chat') {
+    const cmd = commands.get(interaction.commandName);
+    if (!cmd) return;
+    if (interaction.commandName == cmd.data.name) {
         await interaction.deferReply({ ephemeral: true });
         try {
             const response = (
@@ -78,26 +79,5 @@ client.on('interactionCreate', async interaction => {
         }
     }
 });
-// /**
-//  * @param {string} string that may contain code
-//  * @return {string | null} Language name if found
-//  */
-// function detectCode(string: string): string | null {
-//     const languages = [
-//         { name: 'JavaScript', syntax: /function|for|class/ },
-//         { name: 'Python', syntax: /def|for|class/ },
-//         { name: 'C++', syntax: /int|for|class/ },
-//     ];
-
-//     for (const language of languages) {
-//         const regex = new RegExp(language.syntax);
-//         if (regex.test(string)) {
-//             return language.name;
-//         }
-//     }
-
-//     return null;
-// }
-
 
 client.login(process.env.DISCORD_TOKEN);

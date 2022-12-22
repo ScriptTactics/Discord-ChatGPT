@@ -1,4 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
+import { ImportCommand } from '../models/ImportCommand';
 
 export = {
     data: new SlashCommandBuilder()
@@ -9,4 +10,4 @@ export = {
                 .setDescription('Chat with ChatGPT bot')
                 .setRequired(true),
         ),
-}
+} as ImportCommand
