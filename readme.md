@@ -39,7 +39,7 @@ Use [this](https://discordapi.com/permissions.html) tool to help you create the 
 
 Once you added the bot to your server and you setup the appropriate tokens and ID's in your `.env` file you are ready to run the bot.
 
-1. Make sure you have [NodeJs](https://nodejs.org/en/) installed: `Version: 16.13.0LTS`
+1. Make sure you have [NodeJs](https://nodejs.org/en/) installed: `Version: 16.13.0LTS` or greater
 
  This should also install NPM as the package manager so you can install all the other dependencies.
 
@@ -58,7 +58,7 @@ Once you added the bot to your server and you setup the appropriate tokens and I
 
 ## Commands
 
-This bot has 1 main commands
+This bot has 1 main command
 - `/chat` - Has 1 arguments.
   - `chat` - Type in your prompt to the AI. It can accept up to 2048 character.
 
