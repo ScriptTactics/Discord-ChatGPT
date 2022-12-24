@@ -25,7 +25,9 @@ export = {
             const embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imgUrl);
             await interaction.followUp({ embeds: [embedBuilder], ephemeral: true });
+            interaction.followUp({ ephemeral: true, content: 'Prompt: ' + interaction.options.getString('image') });
         } catch (error) {
+            console.error(error);
 
         }
     },

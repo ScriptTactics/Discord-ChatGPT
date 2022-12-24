@@ -58,9 +58,12 @@ Once you added the bot to your server and you setup the appropriate tokens and I
 
 ## Commands
 
-This bot has 1 main command
-- `/chat` - Has 1 arguments.
+This bot has 2 commands
+- `/chat` - Has 1 argument.
   - `chat` - Type in your prompt to the AI. It can accept up to 2048 character.
+- `/image` - Has 1 arguement
+  - `image` - Type your image description to the AI. It can accept up to 2048 characters.
+  The AI will then respond with an image of your description. Sized 1024x1024
 
 
 
