@@ -23,29 +23,28 @@ export = {
                 })
             ).data.choices[0].text;
             if (!response) interaction.reply('Error');
-            const messageLegnth = response.length;
-            if (messageLegnth <= 2000) {
-                interaction.followUp({ ephemeral: true, content: response });
-            } else {
-                const segments: string[] = [];
-                let currentSegment = '';
-                for (let i = 0; i < messageLegnth; i++) {
-                    currentSegment += response[i];
-                    if (currentSegment.length === 2000) {
-                        segments.push(currentSegment);
-                        currentSegment = '';
-                    }
-                }
-                if (currentSegment) {
-                    segments.push(currentSegment);
-                }
-                for (const segment of segments) {
-                    interaction.followUp({ ephemeral: true, content: segment });
-                }
+            // const messageLegnth = response.length;
+
+            for await (const segment of splitString(response, 2000)) {
+                await interaction.followUp({ ephemeral: true, content: segment });
             }
+
             interaction.followUp({ ephemeral: true, content: 'Prompt: ' + interaction.options.getString('chat') });
         } catch (error) {
             console.error(error);
         }
     },
 } as ImportCommand
+
+/**
+ *
+ * @param {string} str message
+ * @param {number} chunkSize message size
+ */
+function* splitString(str: string, chunkSize: number) {
+    let i = 0;
+    while (i < str.length) {
+        yield str.slice(i, i + chunkSize);
+        i += chunkSize;
+    }
+}
