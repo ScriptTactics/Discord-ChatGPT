@@ -3,12 +3,13 @@ import { SlashCommandBuilder } from 'discord.js';
 import { openai } from '..';
 import { ImportCommand } from '../models/ImportCommand';
 
+const commandName = 'image';
 export = {
     data: new SlashCommandBuilder()
-        .setName('image')
+        .setName(commandName)
         .setDescription('Input your image description')
         .addStringOption(option =>
-            option.setName('image')
+            option.setName(commandName)
                 .setDescription('Ask for a generated image')
                 .setRequired(true),
         ),
@@ -16,7 +17,7 @@ export = {
         await interaction.deferReply({ ephemeral: true });
         try {
             const response = openai.createImage({
-                prompt: interaction.options.getString('image'),
+                prompt: interaction.options.getString(commandName),
                 n: 1,
                 size: '1024x1024',
             });
@@ -25,7 +26,7 @@ export = {
             const embedBuilder = new EmbedBuilder();
             embedBuilder.setImage(imgUrl);
             await interaction.followUp({ embeds: [embedBuilder], ephemeral: true });
-            interaction.followUp({ ephemeral: true, content: 'Prompt: ' + interaction.options.getString('image') });
+            interaction.followUp({ ephemeral: true, content: 'Prompt: ' + interaction.options.getString(commandName) });
         } catch (error) {
             console.error(error);
 
